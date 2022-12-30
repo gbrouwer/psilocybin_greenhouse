@@ -1,0 +1,4 @@
+#screen bash
+pm2 start /home/pi/Code/psilocybin_greenhouse/src/measurements.py --interpreter=/usr/bin/python3
+pm2 start /home/pi/Code/psilocybin_greenhouse/src/monitor.py --interpreter=/usr/bin/python3
+#pm2 start /home/pi/Code/psilocybin_greenhouse/src/lux.py --interpreter=/usr/bin/python3
