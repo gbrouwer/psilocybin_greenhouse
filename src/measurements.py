@@ -48,7 +48,7 @@ if __name__ == '__main__':
         print("IMU Init Failed")
         sys.exit(1)
     else:
-        print("IMU Init Succeeded");
+        print("IMU Init Succeeded")
 
     #Turn on sensors
     imu.setSlerpPower(0.02)
@@ -112,7 +112,6 @@ if __name__ == '__main__':
                     else:
                         writestr = writestr + str(int(measurements[j])) + ','
                 writestr = writestr[:-1] + '\n'
-                print(writestr)
                 f.write(writestr)
-                time.sleep(poll_interval*1.0/10.0)
+                time.sleep(1.0)
 
