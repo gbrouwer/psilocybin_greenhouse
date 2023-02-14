@@ -1,40 +1,46 @@
-import sys, getopt
-import numpy as np
-from datetime import datetime
 import time
-import math
+import cv2
+import numpy as np
+import imageio
 import board
 import adafruit_bh1750
+from datetime import datetime
+from sense_hat import SenseHat
 
-#------------------------------------------------------------------------
+#---------------------------------------------------------------
 if __name__ == '__main__':
 
-    #Init
+    #open Sensor
     i2c = board.I2C()
     sensor = adafruit_bh1750.BH1750(i2c)
 
-    #loop
+    #Loop
     while True:
 
-        #Get Data and Date
-        current_time = datetime.now()
-        measurements = np.zeros(7)
-        measurements[0] = sensor.lux
-        measurements[1] = current_time.year
-        measurements[2] = current_time.month
-        measurements[3] = current_time.day
-        measurements[4] = current_time.hour
-        measurements[5] = current_time.minute
-        measurements[6] = current_time.second
+        #Read
+        print(sensor.lux)
+        lux = sensor.lux
+        time.sleep(1.0)
 
-        #Create Filename
+        #Write
+        current_time = datetime.now()
         filename = str(current_time)
         filename = filename.replace(' ', '-').split('.')[0]
         filename = filename.replace(':', '-')
         filename = '/home/pi/Code/psilocybin_greenhouse/data/lux/' + filename[:10] + '.csv'
-
-        #Write
         with open(filename, 'a') as f:
+
+            #Store
+            measurements = np.zeros(7)
+            measurements[0] = lux
+            measurements[1] = current_time.year
+            measurements[2] = current_time.month
+            measurements[3] = current_time.day
+            measurements[4] = current_time.hour
+            measurements[5] = current_time.minute
+            measurements[6] = current_time.second
+
+            #Write
             writestr = ''
             for j in range(7):
                 if (j < 1):
@@ -42,8 +48,6 @@ if __name__ == '__main__':
                 else:
                     writestr = writestr + str(int(measurements[j])) + ','
             writestr = writestr[:-1] + '\n'
-            print(writestr)
             f.write(writestr)
 
-        #Sleep
-        time.sleep(0.5)
+
